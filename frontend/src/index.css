@@ -1,0 +1,143 @@
+/* ============================================================
+   SMART HEALTHCARE - GLOBAL CSS
+   FULL SCREEN + PAGE SCROLL
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   HTML
+   ============================================================ */
+
+html {
+  width: 100%;
+  min-width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  /* IMPORTANT: Page scrolling enabled */
+  height: auto;
+  min-height: 100%;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+/* ============================================================
+   BODY
+   ============================================================ */
+
+body {
+  width: 100%;
+  min-width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  min-height: 100vh;
+  height: auto;
+
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
+  background: #f0f4f8;
+
+  /* IMPORTANT */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+/* ============================================================
+   ROOT
+   ============================================================ */
+
+#root {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 100% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  /* IMPORTANT:
+     Do NOT use height: 100vh here.
+     Content can be taller than the screen.
+  */
+
+  min-height: 100vh;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: visible;
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+button {
+  font-family: inherit;
+}
+
+
+/* ============================================================
+   IMAGES
+   ============================================================ */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* ============================================================
+   TEXTAREA / INPUT
+   ============================================================ */
+
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    width: 100%;
+    min-width: 100%;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #root {
+    width: 100%;
+    min-width: 100%;
+
+    min-height: 100vh;
+    height: auto;
+
+    overflow: visible;
+  }
+}

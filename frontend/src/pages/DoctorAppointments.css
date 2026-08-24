@@ -1,0 +1,56 @@
+.doctor-appointments {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.app-header h2 { margin: 0; color: #0f4c81; }
+.count { background: #f0f4f8; padding: 4px 14px; border-radius: 20px; font-size: 14px; color: #64748b; }
+
+.filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.filter-bar button {
+  padding: 6px 16px; border: 2px solid #e9ecef; background: white; border-radius: 20px;
+  cursor: pointer; font-size: 13px; transition: 0.2s;
+}
+.filter-bar button:hover { border-color: #0f4c81; color: #0f4c81; }
+.filter-bar button.active { background: #0f4c81; color: white; border-color: #0f4c81; }
+
+.appointments-list { display: flex; flex-direction: column; gap: 16px; }
+
+.appointment-card {
+  background: white; padding: 20px 24px; border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-left: 4px solid #0f4c81;
+}
+
+.card-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.card-header h3 { margin: 0; font-size: 18px; color: #1e293b; }
+
+.status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-confirmed { background: #dbeafe; color: #1e40af; }
+.status-completed { background: #d1fae5; color: #065f46; }
+.status-cancelled { background: #fee2e2; color: #991b1b; }
+
+.card-details p { margin: 4px 0; color: #64748b; font-size: 14px; }
+
+.card-actions { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e9ecef; display: flex; gap: 10px; flex-wrap: wrap; }
+.card-actions button { padding: 6px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; transition: 0.2s; }
+.btn-confirm { background: #d1fae5; color: #065f46; }
+.btn-confirm:hover { background: #a7f3d0; }
+.btn-cancel { background: #fee2e2; color: #991b1b; }
+.btn-cancel:hover { background: #fecaca; }
+.btn-complete { background: #dbeafe; color: #1e40af; }
+.btn-complete:hover { background: #bfdbfe; }
+.btn-prescribe { background: #e9ecef; color: #1e293b; }
+.btn-prescribe:hover { background: #d1d5db; }
+
+.empty-state { text-align: center; padding: 60px; background: white; border-radius: 16px; }
+.empty-state p { color: #94a3b8; font-size: 18px; }
+.loading { text-align: center; padding: 60px; color: #94a3b8; }
