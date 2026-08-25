@@ -10,6 +10,7 @@ function DoctorAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState("ALL");
+  const [dateFilter, setDateFilter] = useState("ALL"); // 🔥 NEW
 
   useEffect(() => {
     if (!token) {
@@ -51,9 +52,27 @@ function DoctorAppointments() {
     }
   };
 
-  const filteredAppointments = filterStatus === "ALL" 
-    ? appointments 
-    : appointments.filter(a => a.status === filterStatus);
+  // 🔥 NEW: Get Filtered Appointments
+  const getFilteredAppointments = () => {
+    const today = new Date().toISOString().split('T')[0];
+    let filtered = appointments;
+
+    // Status filter
+    if (filterStatus !== "ALL") {
+      filtered = filtered.filter(a => a.status === filterStatus);
+    }
+
+    // Date filter
+    if (dateFilter === "TODAY") {
+      filtered = filtered.filter(a => a.appointmentDate === today);
+    } else if (dateFilter === "UPCOMING") {
+      filtered = filtered.filter(a => a.appointmentDate > today);
+    }
+
+    return filtered;
+  };
+
+  const filteredAppointments = getFilteredAppointments();
 
   if (loading) return <div className="loading">Loading appointments...</div>;
 
@@ -70,6 +89,12 @@ function DoctorAppointments() {
         <button className={filterStatus === "CONFIRMED" ? "active" : ""} onClick={() => setFilterStatus("CONFIRMED")}>Confirmed</button>
         <button className={filterStatus === "COMPLETED" ? "active" : ""} onClick={() => setFilterStatus("COMPLETED")}>Completed</button>
         <button className={filterStatus === "CANCELLED" ? "active" : ""} onClick={() => setFilterStatus("CANCELLED")}>Cancelled</button>
+        {/* 🔥 NEW: Date Filter */}
+        <button className={dateFilter === "TODAY" ? "active" : ""} onClick={() => setDateFilter("TODAY")}>Today</button>
+        <button className={dateFilter === "UPCOMING" ? "active" : ""} onClick={() => setDateFilter("UPCOMING")}>Upcoming</button>
+        {dateFilter !== "ALL" && (
+          <button className="active" onClick={() => setDateFilter("ALL")}>Clear</button>
+        )}
       </div>
 
       {filteredAppointments.length === 0 ? (

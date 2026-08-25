@@ -97,3 +97,66 @@
   padding: 40px;
   color: #6b7280;
 }
+/* 🔥 NEW: Availability Section */
+.availability-section {
+  margin-top: 10px;
+}
+
+.btn-check-avail {
+  background: #0f4c81;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-check-avail:hover {
+  background: #0a3a61;
+}
+
+.slots-container {
+  margin-top: 12px;
+}
+
+.avail-success {
+  color: #065f46;
+  font-weight: 500;
+}
+
+.avail-error {
+  color: #991b1b;
+  font-weight: 500;
+}
+
+.slots-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.slot-chip {
+  background: #f1f5f9;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.slot-chip:hover {
+  background: #dbeafe;
+  border-color: #0f4c81;
+}
+
+.slot-chip.selected {
+  background: #0f4c81;
+  color: white;
+  border-color: #0f4c81;
+}

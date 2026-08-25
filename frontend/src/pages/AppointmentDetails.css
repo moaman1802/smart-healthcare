@@ -1,0 +1,150 @@
+.appointment-details {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.details-header h2 {
+  margin: 0;
+  color: #0f4c81;
+}
+
+.back-btn {
+  background: #e9ecef;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.back-btn:hover {
+  background: #d1d5db;
+}
+
+.details-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.status-section {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.status-badge-large {
+  display: inline-block;
+  padding: 8px 24px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+.status-confirmed {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.status-completed {
+  background: #d1fae5;
+  color: #065f46;
+}
+.status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  margin-bottom: 24px;
+}
+
+.detail-item .label {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-item .value {
+  font-size: 16px;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.actions-section {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid #e9ecef;
+  padding-top: 20px;
+  justify-content: center;
+}
+
+.actions-section button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btn-confirm {
+  background: #d1fae5;
+  color: #065f46;
+}
+.btn-confirm:hover {
+  background: #a7f3d0;
+}
+
+.btn-cancel {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.btn-cancel:hover {
+  background: #fecaca;
+}
+
+.btn-complete {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.btn-complete:hover {
+  background: #bfdbfe;
+}
+
+.btn-prescribe {
+  background: #e9ecef;
+  color: #1e293b;
+}
+.btn-prescribe:hover {
+  background: #d1d5db;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 60px;
+  color: #94a3b8;
+}

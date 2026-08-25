@@ -10,6 +10,7 @@ function AdminAppointments() {
   const [filterStatus, setFilterStatus] = useState("ALL");
   const [filterDoctor, setFilterDoctor] = useState("ALL");
   const [filterPatient, setFilterPatient] = useState("ALL");
+  const [dateFilter, setDateFilter] = useState("ALL"); // 🔥 NEW
   const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -83,6 +84,31 @@ function AdminAppointments() {
     }
   };
 
+  // 🔥 NEW: Date Filter
+  const handleDateFilter = (filter) => {
+    setDateFilter(filter);
+  };
+
+  // 🔥 NEW: Get Filtered Appointments
+  const getFilteredAppointments = () => {
+    const today = new Date().toISOString().split('T')[0];
+    let filtered = appointments;
+
+    // Status filter
+    if (filterStatus !== "ALL") {
+      filtered = filtered.filter(a => a.status === filterStatus);
+    }
+
+    // Date filter
+    if (dateFilter === "TODAY") {
+      filtered = filtered.filter(a => a.appointmentDate === today);
+    } else if (dateFilter === "UPCOMING") {
+      filtered = filtered.filter(a => a.appointmentDate > today);
+    }
+
+    return filtered;
+  };
+
   const handleStatusUpdate = async (id, status) => {
     try {
       await API.patch(`/appointments/${status}/${id}`);
@@ -114,6 +140,8 @@ function AdminAppointments() {
     }
   };
 
+  const filteredAppointments = getFilteredAppointments();
+
   if (loading) return <div className="loading">Loading appointments...</div>;
 
   return (
@@ -125,7 +153,6 @@ function AdminAppointments() {
         </button>
       </div>
 
-      {/* Filters */}
       <div className="filters">
         <div className="filter-group">
           <span>Status:</span>
@@ -134,6 +161,14 @@ function AdminAppointments() {
           <button className={filterStatus === "CONFIRMED" ? "active" : ""} onClick={() => handleFilterStatus("CONFIRMED")}>Confirmed</button>
           <button className={filterStatus === "COMPLETED" ? "active" : ""} onClick={() => handleFilterStatus("COMPLETED")}>Completed</button>
           <button className={filterStatus === "CANCELLED" ? "active" : ""} onClick={() => handleFilterStatus("CANCELLED")}>Cancelled</button>
+        </div>
+
+        {/* 🔥 NEW: Date Filter */}
+        <div className="filter-group">
+          <span>Date:</span>
+          <button className={dateFilter === "ALL" ? "active" : ""} onClick={() => handleDateFilter("ALL")}>All</button>
+          <button className={dateFilter === "TODAY" ? "active" : ""} onClick={() => handleDateFilter("TODAY")}>Today</button>
+          <button className={dateFilter === "UPCOMING" ? "active" : ""} onClick={() => handleDateFilter("UPCOMING")}>Upcoming</button>
         </div>
 
         <div className="filter-group">
@@ -171,10 +206,10 @@ function AdminAppointments() {
             </tr>
           </thead>
           <tbody>
-            {appointments.length === 0 ? (
+            {filteredAppointments.length === 0 ? (
               <tr><td colSpan="7" className="empty-row">No appointments found.</td></tr>
             ) : (
-              appointments.map((app, index) => (
+              filteredAppointments.map((app, index) => (
                 <tr key={app.id}>
                   <td>{index + 1}</td>
                   <td>{app.patientName}</td>

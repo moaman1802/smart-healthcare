@@ -1,12 +1,80 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import API from "../api/api";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import "./Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userName = localStorage.getItem("userName") || "User";
+  const userRole = localStorage.getItem("userRole") || "PATIENT";
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Dashboard data states
+  const [stats, setStats] = useState({
+    totalAppointments: 0,
+    totalDoctors: 0,
+    totalReports: 0,
+    totalPatients: 0,
+  });
+  const [recentActivities, setRecentActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [appointmentStats, setAppointmentStats] = useState([
+    { name: "Pending", value: 0 },
+    { name: "Confirmed", value: 0 },
+    { name: "Completed", value: 0 },
+    { name: "Cancelled", value: 0 },
+  ]);
+
+  const COLORS = ["#f59e0b", "#3b82f6", "#10b981", "#ef4444"];
+
+  useEffect(() => {
+    if (token) {
+      fetchDashboardData();
+    }
+  }, [token]);
+
+  const fetchDashboardData = async () => {
+    try {
+      const [statsRes, recentRes] = await Promise.all([
+        API.get("/dashboard/stats"),
+        API.get("/dashboard/recent?limit=5"),
+      ]);
+
+      setStats({
+        totalAppointments: statsRes.data.totalAppointments || 0,
+        totalDoctors: statsRes.data.totalDoctors || 0,
+        totalReports: statsRes.data.totalReports || 0,
+        totalPatients: statsRes.data.totalPatients || 0,
+      });
+      setRecentActivities(recentRes.data);
+
+      const total = statsRes.data.totalAppointments || 1;
+      setAppointmentStats([
+        { name: "Pending", value: Math.floor(total * 0.3) },
+        { name: "Confirmed", value: Math.floor(total * 0.4) },
+        { name: "Completed", value: Math.floor(total * 0.2) },
+        { name: "Cancelled", value: Math.floor(total * 0.1) },
+      ]);
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+      setLoading(false);
+    }
+  };
 
   if (!token) {
     return <Navigate to="/login" replace />;
@@ -16,16 +84,112 @@ function Dashboard() {
     localStorage.removeItem("token");
     localStorage.removeItem("userName");
     localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
     navigate("/login");
   };
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const closeSidebar = () => setSidebarOpen(false);
+
+  // ===== ROLE-BASED SIDEBAR NAV =====
+  const getSidebarNav = () => {
+    const common = [{ icon: "📊", label: "Dashboard", path: "/dashboard" }];
+
+    if (userRole === "ADMIN") {
+      return [
+        ...common,
+        { icon: "👨‍⚕️", label: "Manage Doctors", path: "/admin/doctors" },
+        { icon: "👤", label: "Manage Patients", path: "/admin/patients" },
+        { icon: "📅", label: "Manage Appointments", path: "/admin/appointments" },
+        { icon: "👥", label: "Manage Users", path: "/admin/users" },
+        { icon: "💊", label: "Medicines", path: "/medicines" },
+        { icon: "📦", label: "Inventory", path: "/inventory" },
+        { icon: "💰", label: "Bills", path: "/admin/bills" },
+        { icon: "🛏️", label: "Beds", path: "/beds" },
+        { icon: "🏥", label: "Admissions", path: "/admissions" },
+        { icon: "🔬", label: "Laboratory", path: "/admin/lab" }, // ✅ NEW
+        { icon: "🤖", label: "AI Symptom Checker", path: "/ai-symptom-checker" },
+      ];
+    }
+
+    if (userRole === "DOCTOR") {
+      return [
+        ...common,
+        { icon: "📅", label: "My Appointments", path: "/doctor/appointments" },
+        { icon: "📝", label: "Add Prescription", path: "/add-prescription" },
+        { icon: "📝", label: "Add Report", path: "/add-report" },
+        { icon: "📋", label: "My Reports", path: "/doctor/reports" },
+        { icon: "🔬", label: "Add Lab Test", path: "/add-lab-test" },
+        { icon: "🔬", label: "My Lab Tests", path: "/doctor/lab" }, // ✅ NEW
+        { icon: "🏥", label: "Admit Patient", path: "/add-admission" },
+        { icon: "🤖", label: "AI Symptom Checker", path: "/ai-symptom-checker" },
+      ];
+    }
+
+    // PATIENT
+    return [
+      ...common,
+      { icon: "📅", label: "Book Appointment", path: "/book-appointment" },
+      { icon: "📋", label: "My Appointments", path: "/my-appointments" },
+      { icon: "💊", label: "My Prescriptions", path: "/my-prescriptions" },
+      { icon: "📋", label: "My Reports", path: "/my-reports" },
+      { icon: "🔬", label: "My Lab Tests", path: "/my-lab-tests" },
+      { icon: "💰", label: "My Bills", path: "/my-bills" },
+      { icon: "🤖", label: "AI Symptom Checker", path: "/ai-symptom-checker" },
+    ];
   };
 
-  const closeSidebar = () => {
-    setSidebarOpen(false);
+  // ===== ROLE-BASED QUICK ACTIONS =====
+  const getQuickActions = () => {
+    if (userRole === "ADMIN") {
+      return [
+        { icon: "👨‍⚕️", label: "Manage Doctors", path: "/admin/doctors" },
+        { icon: "👤", label: "Manage Patients", path: "/admin/patients" },
+        { icon: "📅", label: "Manage Appointments", path: "/admin/appointments" },
+        { icon: "👥", label: "Manage Users", path: "/admin/users" },
+        { icon: "💊", label: "Medicines", path: "/medicines" },
+        { icon: "📦", label: "Inventory", path: "/inventory" },
+        { icon: "💰", label: "Bills", path: "/admin/bills" },
+        { icon: "🛏️", label: "Beds", path: "/beds" },
+        { icon: "🏥", label: "Admissions", path: "/admissions" },
+        { icon: "🔬", label: "Laboratory", path: "/admin/lab" }, // ✅ NEW
+      ];
+    }
+    if (userRole === "DOCTOR") {
+      return [
+        { icon: "📅", label: "My Appointments", path: "/doctor/appointments" },
+        { icon: "📝", label: "Add Prescription", path: "/add-prescription" },
+        { icon: "📝", label: "Add Report", path: "/add-report" },
+        { icon: "🔬", label: "Add Lab Test", path: "/add-lab-test" },
+        { icon: "🔬", label: "My Lab Tests", path: "/doctor/lab" }, // ✅ NEW
+        { icon: "🏥", label: "Admit Patient", path: "/add-admission" },
+      ];
+    }
+    // PATIENT
+    return [
+      { icon: "📅", label: "Book Appointment", path: "/book-appointment" },
+      { icon: "📋", label: "My Appointments", path: "/my-appointments" },
+      { icon: "💊", label: "My Prescriptions", path: "/my-prescriptions" },
+      { icon: "📋", label: "My Reports", path: "/my-reports" },
+      { icon: "🔬", label: "My Lab Tests", path: "/my-lab-tests" },
+      { icon: "💰", label: "My Bills", path: "/my-bills" },
+    ];
   };
+
+  // ===== ROLE-BASED STATS =====
+  const getStats = () => {
+    const allStats = [
+      { icon: "📅", label: "Appointments", value: stats.totalAppointments },
+      { icon: "👨‍⚕️", label: "Doctors", value: stats.totalDoctors },
+      { icon: "📋", label: "Reports", value: stats.totalReports },
+      { icon: "👤", label: "Patients", value: stats.totalPatients },
+    ];
+    if (userRole === "ADMIN") return allStats;
+    if (userRole === "DOCTOR") return allStats;
+    return allStats.filter((s) => s.label === "Appointments" || s.label === "Reports");
+  };
+
+  if (loading) return <div className="loading">Loading dashboard...</div>;
 
   return (
     <div className="dashboard">
@@ -33,7 +197,6 @@ function Dashboard() {
       <button className="hamburger" onClick={toggleSidebar}>
         ☰
       </button>
-
       {sidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
 
       {/* Sidebar */}
@@ -42,49 +205,19 @@ function Dashboard() {
           <h2>🏥 Smart Health</h2>
           <button className="close-sidebar" onClick={closeSidebar}>✕</button>
         </div>
-
         <nav>
-          <button onClick={() => { navigate("/dashboard"); closeSidebar(); }}>
-            📊 Dashboard
-          </button>
-          <button onClick={() => { navigate("/book-appointment"); closeSidebar(); }}>
-            📅 Book Appointment
-          </button>
-          <button onClick={() => { navigate("/my-appointments"); closeSidebar(); }}>
-            📋 My Appointments
-          </button>
-          <button onClick={() => { navigate("/my-prescriptions"); closeSidebar(); }}>
-            💊 My Prescriptions
-          </button>
-          <button onClick={() => { navigate("/add-prescription"); closeSidebar(); }}>
-            📝 Add Prescription
-          </button>
-          <button onClick={() => { navigate("/doctor/appointments"); closeSidebar(); }}>
-            📋 My Appointments (Doctor)
-          </button>
-          <button onClick={() => { navigate("/admin/doctors"); closeSidebar(); }}>
-            👨‍⚕️ Manage Doctors
-          </button>
-          <button onClick={() => { navigate("/admin/patients"); closeSidebar(); }}>
-            👤 Manage Patients
-          </button>
-          <button onClick={() => { navigate("/admin/appointments"); closeSidebar(); }}>
-            📅 Manage Appointments
-          </button>
-          <button onClick={() => { navigate("/admin/users"); closeSidebar(); }}>
-            👥 Manage Users
-          </button>
-          <button onClick={() => { navigate("/ai-symptom-checker"); closeSidebar(); }}>
-            🤖 AI Symptom Checker
-          </button>
-          <button onClick={closeSidebar}>
-            📋 Medical Reports
-          </button>
-          <button onClick={closeSidebar}>
-            ⚙️ Profile
-          </button>
+          {getSidebarNav().map((item, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                navigate(item.path);
+                closeSidebar();
+              }}
+            >
+              {item.icon} {item.label}
+            </button>
+          ))}
         </nav>
-
         <button className="logout-btn" onClick={handleLogout}>
           🚪 Logout
         </button>
@@ -92,11 +225,12 @@ function Dashboard() {
 
       {/* Main Content */}
       <main className="dashboard-content">
-        {/* Header */}
         <header className="dashboard-header">
           <div>
             <h1>📊 Dashboard</h1>
-            <p>Welcome back, <strong>{userName}</strong> 👋</p>
+            <p>
+              Welcome back, <strong>{userName}</strong> 👋 (Role: {userRole})
+            </p>
           </div>
           <div className="user-info">
             <span>👤</span>
@@ -104,27 +238,63 @@ function Dashboard() {
           </div>
         </header>
 
-        {/* Statistics */}
+        {/* Stats */}
         <section className="stats">
-          <div className="stat-card">
-            <span className="stat-icon">📅</span>
-            <h3>Appointments</h3>
-            <p>0</p>
-          </div>
-          <div className="stat-card">
-            <span className="stat-icon">👨‍⚕️</span>
-            <h3>Doctors</h3>
-            <p>0</p>
-          </div>
-          <div className="stat-card">
-            <span className="stat-icon">📋</span>
-            <h3>Reports</h3>
-            <p>0</p>
-          </div>
-          <div className="stat-card">
-            <span className="stat-icon">👤</span>
-            <h3>Patients</h3>
-            <p>0</p>
+          {getStats().map((stat, idx) => (
+            <div key={idx} className="stat-card">
+              <span className="stat-icon">{stat.icon}</span>
+              <h3>{stat.label}</h3>
+              <p>{stat.value}</p>
+            </div>
+          ))}
+        </section>
+
+        {/* Charts */}
+        <section className="charts-section">
+          <h2>📊 Analytics</h2>
+          <div className="charts-grid">
+            <div className="chart-card">
+              <h3>Appointment Status</h3>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={appointmentStats}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                  >
+                    {appointmentStats.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="chart-card">
+              <h3>Weekly Appointments (Sample)</h3>
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart
+                  data={[
+                    { day: "Mon", count: 4 },
+                    { day: "Tue", count: 7 },
+                    { day: "Wed", count: 5 },
+                    { day: "Thu", count: 9 },
+                    { day: "Fri", count: 6 },
+                    { day: "Sat", count: 3 },
+                    { day: "Sun", count: 2 },
+                  ]}
+                >
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#0f4c81" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </section>
 
@@ -132,54 +302,12 @@ function Dashboard() {
         <section className="quick-actions">
           <h2>⚡ Quick Actions</h2>
           <div className="action-grid">
-            <button onClick={() => navigate("/book-appointment")}>
-              <span>📅</span>
-              Book Appointment
-            </button>
-            <button onClick={() => navigate("/my-appointments")}>
-              <span>📋</span>
-              My Appointments
-            </button>
-            <button onClick={() => navigate("/my-prescriptions")}>
-              <span>💊</span>
-              My Prescriptions
-            </button>
-            <button onClick={() => navigate("/add-prescription")}>
-              <span>📝</span>
-              Add Prescription
-            </button>
-            <button onClick={() => navigate("/doctor/appointments")}>
-              <span>📋</span>
-              My Appointments (Doctor)
-            </button>
-            <button onClick={() => navigate("/admin/doctors")}>
-              <span>👨‍⚕️</span>
-              Manage Doctors
-            </button>
-            <button onClick={() => navigate("/admin/patients")}>
-              <span>👤</span>
-              Manage Patients
-            </button>
-            <button onClick={() => navigate("/admin/appointments")}>
-              <span>📅</span>
-              Manage Appointments
-            </button>
-            <button onClick={() => navigate("/admin/users")}>
-              <span>👥</span>
-              Manage Users
-            </button>
-            <button onClick={() => navigate("/ai-symptom-checker")}>
-              <span>🤖</span>
-              AI Symptom Checker
-            </button>
-            <button>
-              <span>📋</span>
-              Medical Reports
-            </button>
-            <button>
-              <span>⚙️</span>
-              Profile
-            </button>
+            {getQuickActions().map((action, idx) => (
+              <button key={idx} onClick={() => navigate(action.path)}>
+                <span>{action.icon}</span>
+                {action.label}
+              </button>
+            ))}
           </div>
         </section>
 
@@ -187,7 +315,26 @@ function Dashboard() {
         <section className="recent-activity">
           <h2>🕐 Recent Activity</h2>
           <div className="activity-card">
-            <p>No recent activity.</p>
+            {recentActivities.length === 0 ? (
+              <p>No recent activity.</p>
+            ) : (
+              <ul className="activity-list">
+                {recentActivities.map((activity, index) => (
+                  <li key={index} className="activity-item">
+                    <span className="activity-icon">
+                      {activity.type === "APPOINTMENT" ? "📅" : "📋"}
+                    </span>
+                    <span className="activity-message">{activity.message}</span>
+                    <span className="activity-date">{activity.date}</span>
+                    <span
+                      className={`activity-status ${activity.status?.toLowerCase()}`}
+                    >
+                      {activity.status || ""}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
       </main>

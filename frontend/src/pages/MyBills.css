@@ -1,0 +1,20 @@
+.my-bills { max-width: 900px; margin: 0 auto; padding: 20px; }
+.bill-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.bill-header h2 { color: #0f4c81; margin: 0; }
+.count { background: #f0f4f8; padding: 4px 14px; border-radius: 20px; font-size: 14px; color: #64748b; }
+.filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.filter-bar button { padding: 6px 16px; border: 2px solid #e9ecef; background: white; border-radius: 20px; cursor: pointer; font-size: 13px; transition: 0.2s; }
+.filter-bar button.active { background: #0f4c81; color: white; border-color: #0f4c81; }
+.bills-list { display: flex; flex-direction: column; gap: 16px; }
+.bill-card { background: white; padding: 20px 24px; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-left: 4px solid #0f4c81; }
+.bill-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.invoice { font-weight: 700; color: #0f4c81; font-size: 16px; }
+.status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-paid { background: #d1fae5; color: #065f46; }
+.status-partial { background: #dbeafe; color: #1e40af; }
+.status-cancelled { background: #fee2e2; color: #991b1b; }
+.bill-details p { margin: 4px 0; color: #64748b; font-size: 14px; }
+.empty-state { text-align: center; padding: 60px; background: white; border-radius: 16px; color: #94a3b8; }
+.loading { text-align: center; padding: 60px; color: #94a3b8; }
+@media (max-width:768px){ .bill-card { padding: 16px; } }

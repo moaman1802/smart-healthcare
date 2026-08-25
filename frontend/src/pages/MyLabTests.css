@@ -1,0 +1,179 @@
+.my-lab-tests {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.lab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.lab-header h2 {
+  margin: 0;
+  color: #0f4c81;
+}
+
+.lab-count {
+  background: #f0f4f8;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.filter-bar button {
+  padding: 8px 20px;
+  border: 2px solid #e9ecef;
+  background: white;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.filter-bar button:hover {
+  border-color: #0f4c81;
+  color: #0f4c81;
+}
+
+.filter-bar button.active {
+  background: #0f4c81;
+  color: white;
+  border-color: #0f4c81;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.empty-state p {
+  color: #94a3b8;
+  font-size: 18px;
+}
+
+.tests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.test-card {
+  background: white;
+  padding: 20px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0f4c81;
+}
+
+.test-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.test-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #1e293b;
+}
+
+.status-badge {
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+.status-progress {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.status-completed {
+  background: #d1fae5;
+  color: #065f46;
+}
+.status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.test-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 20px;
+}
+
+.test-row {
+  display: flex;
+  gap: 6px;
+}
+
+.test-label {
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.test-value {
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.test-value a {
+  color: #0f4c81;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.test-value a:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .test-details {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .test-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .test-card {
+    padding: 16px;
+  }
+  .my-lab-tests {
+    padding: 12px;
+  }
+  .lab-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

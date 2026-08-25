@@ -12,6 +12,11 @@ function BookAppointment() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
+  // 🔥 NEW: Availability Check State
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [availabilityChecked, setAvailabilityChecked] = useState(false);
+  const [available, setAvailable] = useState(false);
+
   const [form, setForm] = useState({
     patientName: "",
     patientEmail: userEmail,
@@ -43,8 +48,32 @@ function BookAppointment() {
     }
   };
 
+  // 🔥 NEW: Check Availability
+  const checkAvailability = async () => {
+    if (!form.doctorEmail || !form.appointmentDate) {
+      alert("Please select doctor and date first");
+      return;
+    }
+    try {
+      const dayOfWeek = new Date(form.appointmentDate).toLocaleString('en-us', { weekday: 'long' }).toUpperCase();
+      const response = await API.get(`/availability/slots?doctorEmail=${form.doctorEmail}&dayOfWeek=${dayOfWeek}`);
+      setAvailableSlots(response.data);
+      setAvailabilityChecked(true);
+      setAvailable(response.data.length > 0);
+    } catch (error) {
+      console.error("Error checking availability:", error);
+      alert("Failed to check availability");
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Reset availability when doctor or date changes
+    if (name === "doctorEmail" || name === "appointmentDate") {
+      setAvailabilityChecked(false);
+      setAvailableSlots([]);
+    }
 
     // If doctor is selected, auto-fill doctorName and doctorEmail
     if (name === "doctorEmail") {
@@ -62,6 +91,14 @@ function BookAppointment() {
     setForm({
       ...form,
       [name]: value,
+    });
+  };
+
+  // 🔥 NEW: Select slot and auto-fill time
+  const selectSlot = (slot) => {
+    setForm({
+      ...form,
+      appointmentTime: slot,
     });
   };
 
@@ -145,6 +182,37 @@ function BookAppointment() {
             required
           />
         </div>
+
+        {/* 🔥 NEW: Availability Check Section */}
+        {form.doctorEmail && form.appointmentDate && (
+          <div className="form-group availability-section">
+            <button type="button" className="btn-check-avail" onClick={checkAvailability}>
+              🔍 Check Available Slots
+            </button>
+            {availabilityChecked && (
+              <div className="slots-container">
+                {available ? (
+                  <>
+                    <p className="avail-success">✅ Available slots:</p>
+                    <div className="slots-list">
+                      {availableSlots.map((slot, i) => (
+                        <span
+                          key={i}
+                          className={`slot-chip ${form.appointmentTime === slot ? "selected" : ""}`}
+                          onClick={() => selectSlot(slot)}
+                        >
+                          {slot}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <p className="avail-error">❌ No available slots for this day</p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="form-group">
           <label>Time *</label>
