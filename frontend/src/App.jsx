@@ -37,6 +37,17 @@ import AddBed from './pages/AddBed';
 import AddAdmission from './pages/AddAdmission';
 import DoctorLabTests from './pages/DoctorLabTests';
 import AdminLabTests from './pages/AdminLabTests';
+import PharmacyDashboard from './pages/PharmacyDashboard';
+import MedicineRequest from './pages/MedicineRequest';
+import LowStockAlerts from './pages/LowStockAlerts';
+import PrescriptionManagement from './pages/PrescriptionManagement';
+import BillingDashboard from './pages/BillingDashboard';
+import IPDDashboard from './pages/IPDDashboard';
+import WardList from './pages/WardList';
+import AddWard from './pages/AddWard';
+
+import NotificationList from './pages/NotificationList';
+
 
 function App() {
   return (
@@ -88,10 +99,29 @@ function App() {
 
       {/* Default */}
       <Route path="/" element={<Navigate to="/login" />} />
-      
+
       {/* Doctor Lab Tests */}
       <Route path="/doctor/lab" element={<DoctorLabTests />} />
       <Route path="/admin/lab" element={<AdminLabTests />} />
+
+      {/* Pharmacy Dashboard */}
+      <Route path="/pharmacy" element={<PharmacyDashboard />} />
+      <Route path="/medicine-request" element={<MedicineRequest />} />
+      <Route path="/low-stock" element={<LowStockAlerts />} />
+      <Route path="/prescriptions/manage" element={<PrescriptionManagement />} />
+
+      {/* Billing Dashboard */}
+      <Route path="/billing/dashboard" element={<BillingDashboard />} />
+
+      {/* IPD / Bed Management Dashboard */}
+      <Route path="/ipd/dashboard" element={<IPDDashboard />} />
+      <Route path="/wards" element={<WardList />} />
+      <Route path="/add-ward" element={<AddWard />} />
+
+      {/* Notifications */}
+      <Route path="/notifications" element={<NotificationList />} />
+
+
     </Routes>
   );
 }

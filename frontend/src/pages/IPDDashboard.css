@@ -1,0 +1,225 @@
+.ipd-dashboard {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ipd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.ipd-header h2 {
+  margin: 0;
+  color: #0f4c81;
+}
+
+.ipd-stats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.ipd-stat-card {
+  background: white;
+  padding: 16px 14px;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.ipd-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.ipd-stat-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ipd-stat-card h3 {
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.ipd-stat-card p {
+  margin: 6px 0 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f4c81;
+}
+
+.ipd-recent {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.ipd-recent h3 {
+  margin: 0 0 12px 0;
+  color: #1e293b;
+  font-size: 18px;
+}
+
+.ipd-recent-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ipd-recent-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f4f8;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.ipd-recent-list li:last-child {
+  border-bottom: none;
+}
+
+.ipd-recent-date {
+  color: #94a3b8;
+  font-size: 13px;
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+.ipd-quick-actions {
+  margin-bottom: 35px;
+}
+
+.ipd-quick-actions h2 {
+  font-size: 19px;
+  margin-bottom: 16px;
+  color: #1e293b;
+}
+
+.ipd-action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.ipd-action-grid button {
+  border: none;
+  background: white;
+  padding: 18px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ipd-action-grid button span {
+  font-size: 26px;
+}
+
+.ipd-action-grid button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(15, 76, 129, 0.15);
+  border-color: #0f4c81;
+  color: #0f4c81;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .ipd-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ipd-dashboard {
+    padding: 12px;
+  }
+
+  .ipd-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .ipd-action-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .ipd-stat-card {
+    padding: 14px 10px;
+  }
+
+  .ipd-stat-card p {
+    font-size: 20px;
+  }
+
+  .ipd-recent-list li {
+    flex-wrap: wrap;
+  }
+
+  .ipd-recent-date {
+    margin-left: 0;
+    width: 100%;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ipd-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ipd-stat-card {
+    padding: 12px 8px;
+  }
+
+  .ipd-stat-card p {
+    font-size: 18px;
+  }
+
+  .ipd-action-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ipd-action-grid button {
+    padding: 14px 8px;
+    font-size: 12px;
+  }
+
+  .ipd-action-grid button span {
+    font-size: 22px;
+  }
+}

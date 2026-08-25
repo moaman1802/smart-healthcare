@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import API from "../api/api";
+import Notifications from '../components/Notifications';
 import {
   PieChart,
   Pie,
@@ -102,12 +103,17 @@ function Dashboard() {
         { icon: "👤", label: "Manage Patients", path: "/admin/patients" },
         { icon: "📅", label: "Manage Appointments", path: "/admin/appointments" },
         { icon: "👥", label: "Manage Users", path: "/admin/users" },
-        { icon: "💊", label: "Medicines", path: "/medicines" },
+        { icon: "💊", label: "Pharmacy Dashboard", path: "/pharmacy" },
+        { icon: "📋", label: "Prescriptions", path: "/prescriptions/manage" },
+        { icon: "⚠️", label: "Low Stock Alerts", path: "/low-stock" },
         { icon: "📦", label: "Inventory", path: "/inventory" },
         { icon: "💰", label: "Bills", path: "/admin/bills" },
+        { icon: "💰", label: "Billing Dashboard", path: "/billing/dashboard" },
         { icon: "🛏️", label: "Beds", path: "/beds" },
         { icon: "🏥", label: "Admissions", path: "/admissions" },
-        { icon: "🔬", label: "Laboratory", path: "/admin/lab" }, // ✅ NEW
+        { icon: "🏥", label: "IPD Dashboard", path: "/ipd/dashboard" },
+        { icon: "🏛️", label: "Manage Wards", path: "/wards" },
+        { icon: "🔬", label: "Laboratory", path: "/admin/lab" },
         { icon: "🤖", label: "AI Symptom Checker", path: "/ai-symptom-checker" },
       ];
     }
@@ -119,8 +125,9 @@ function Dashboard() {
         { icon: "📝", label: "Add Prescription", path: "/add-prescription" },
         { icon: "📝", label: "Add Report", path: "/add-report" },
         { icon: "📋", label: "My Reports", path: "/doctor/reports" },
+        { icon: "💊", label: "Request Medicine", path: "/medicine-request" },
         { icon: "🔬", label: "Add Lab Test", path: "/add-lab-test" },
-        { icon: "🔬", label: "My Lab Tests", path: "/doctor/lab" }, // ✅ NEW
+        { icon: "🔬", label: "My Lab Tests", path: "/doctor/lab" },
         { icon: "🏥", label: "Admit Patient", path: "/add-admission" },
         { icon: "🤖", label: "AI Symptom Checker", path: "/ai-symptom-checker" },
       ];
@@ -147,12 +154,17 @@ function Dashboard() {
         { icon: "👤", label: "Manage Patients", path: "/admin/patients" },
         { icon: "📅", label: "Manage Appointments", path: "/admin/appointments" },
         { icon: "👥", label: "Manage Users", path: "/admin/users" },
-        { icon: "💊", label: "Medicines", path: "/medicines" },
+        { icon: "💊", label: "Pharmacy", path: "/pharmacy" },
+        { icon: "📋", label: "Prescriptions", path: "/prescriptions/manage" },
+        { icon: "⚠️", label: "Low Stock Alerts", path: "/low-stock" },
         { icon: "📦", label: "Inventory", path: "/inventory" },
         { icon: "💰", label: "Bills", path: "/admin/bills" },
+        { icon: "💰", label: "Billing", path: "/billing/dashboard" },
         { icon: "🛏️", label: "Beds", path: "/beds" },
         { icon: "🏥", label: "Admissions", path: "/admissions" },
-        { icon: "🔬", label: "Laboratory", path: "/admin/lab" }, // ✅ NEW
+        { icon: "🏥", label: "IPD Dashboard", path: "/ipd/dashboard" },
+        { icon: "🏛️", label: "Wards", path: "/wards" },
+        { icon: "🔬", label: "Laboratory", path: "/admin/lab" },
       ];
     }
     if (userRole === "DOCTOR") {
@@ -160,8 +172,9 @@ function Dashboard() {
         { icon: "📅", label: "My Appointments", path: "/doctor/appointments" },
         { icon: "📝", label: "Add Prescription", path: "/add-prescription" },
         { icon: "📝", label: "Add Report", path: "/add-report" },
+        { icon: "💊", label: "Request Medicine", path: "/medicine-request" },
         { icon: "🔬", label: "Add Lab Test", path: "/add-lab-test" },
-        { icon: "🔬", label: "My Lab Tests", path: "/doctor/lab" }, // ✅ NEW
+        { icon: "🔬", label: "My Lab Tests", path: "/doctor/lab" },
         { icon: "🏥", label: "Admit Patient", path: "/add-admission" },
       ];
     }
@@ -232,9 +245,12 @@ function Dashboard() {
               Welcome back, <strong>{userName}</strong> 👋 (Role: {userRole})
             </p>
           </div>
-          <div className="user-info">
-            <span>👤</span>
-            <span>{userName}</span>
+          <div className="header-right">
+            <Notifications />
+            <div className="user-info">
+              <span>👤</span>
+              <span>{userName}</span>
+            </div>
           </div>
         </header>
 

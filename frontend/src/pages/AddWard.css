@@ -1,0 +1,134 @@
+.add-ward {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.aw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.aw-header h2 {
+  margin: 0;
+  color: #0f4c81;
+}
+
+.btn-back {
+  background: #e9ecef;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.btn-back:hover {
+  background: #d1d5db;
+}
+
+.aw-form {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.aw-form .form-group {
+  margin-bottom: 16px;
+}
+
+.aw-form .form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.aw-form .form-group input,
+.aw-form .form-group select,
+.aw-form .form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  font-family: inherit;
+}
+
+.aw-form .form-group input:focus,
+.aw-form .form-group select:focus,
+.aw-form .form-group textarea:focus {
+  outline: none;
+  border-color: #0f4c81;
+  box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.15);
+}
+
+.aw-form .form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.aw-form .form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+.aw-form .form-actions button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-cancel {
+  background: #e9ecef;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #d1d5db;
+}
+
+.btn-save {
+  background: #0f4c81;
+  color: white;
+}
+
+.btn-save:hover {
+  background: #0a3a61;
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .add-ward {
+    padding: 12px;
+  }
+
+  .aw-form {
+    padding: 18px;
+  }
+
+  .aw-form .form-actions {
+    flex-direction: column;
+  }
+
+  .aw-form .form-actions button {
+    width: 100%;
+  }
+}
