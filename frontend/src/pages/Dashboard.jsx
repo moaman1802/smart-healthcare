@@ -114,7 +114,10 @@ function Dashboard() {
         { icon: "🏥", label: "IPD Dashboard", path: "/ipd/dashboard" },
         { icon: "🏛️", label: "Manage Wards", path: "/wards" },
         { icon: "🔬", label: "Laboratory", path: "/admin/lab" },
+        { icon: "📊", label: "Reports & Analytics", path: "/reports" },
         { icon: "🤖", label: "AI Symptom Checker", path: "/ai-symptom-checker" },
+        { icon: "🤖", label: "AI Assistant (Chatbot)", path: "/ai-assistant" },
+        { icon: "⚙️", label: "Admin Settings", path: "/admin/settings" }, // ✅ NEW
       ];
     }
 
@@ -130,6 +133,7 @@ function Dashboard() {
         { icon: "🔬", label: "My Lab Tests", path: "/doctor/lab" },
         { icon: "🏥", label: "Admit Patient", path: "/add-admission" },
         { icon: "🤖", label: "AI Symptom Checker", path: "/ai-symptom-checker" },
+        { icon: "🤖", label: "AI Assistant (Chatbot)", path: "/ai-assistant" },
       ];
     }
 
@@ -143,6 +147,7 @@ function Dashboard() {
       { icon: "🔬", label: "My Lab Tests", path: "/my-lab-tests" },
       { icon: "💰", label: "My Bills", path: "/my-bills" },
       { icon: "🤖", label: "AI Symptom Checker", path: "/ai-symptom-checker" },
+      { icon: "🤖", label: "AI Assistant (Chatbot)", path: "/ai-assistant" },
     ];
   };
 
@@ -165,6 +170,9 @@ function Dashboard() {
         { icon: "🏥", label: "IPD Dashboard", path: "/ipd/dashboard" },
         { icon: "🏛️", label: "Wards", path: "/wards" },
         { icon: "🔬", label: "Laboratory", path: "/admin/lab" },
+        { icon: "📊", label: "Reports", path: "/reports" },
+        { icon: "🤖", label: "AI Assistant", path: "/ai-assistant" },
+        { icon: "⚙️", label: "Settings", path: "/admin/settings" }, // ✅ NEW
       ];
     }
     if (userRole === "DOCTOR") {
@@ -176,6 +184,7 @@ function Dashboard() {
         { icon: "🔬", label: "Add Lab Test", path: "/add-lab-test" },
         { icon: "🔬", label: "My Lab Tests", path: "/doctor/lab" },
         { icon: "🏥", label: "Admit Patient", path: "/add-admission" },
+        { icon: "🤖", label: "AI Assistant", path: "/ai-assistant" },
       ];
     }
     // PATIENT
@@ -186,6 +195,7 @@ function Dashboard() {
       { icon: "📋", label: "My Reports", path: "/my-reports" },
       { icon: "🔬", label: "My Lab Tests", path: "/my-lab-tests" },
       { icon: "💰", label: "My Bills", path: "/my-bills" },
+      { icon: "🤖", label: "AI Assistant", path: "/ai-assistant" },
     ];
   };
 

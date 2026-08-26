@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../api/api";
+import { useToast } from "../components/Toast";
 import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
+  const toast = useToast();
   const [loginMode, setLoginMode] = useState("password"); // "password" or "otp"
   
   // Password Login State
@@ -18,15 +20,11 @@ function Login() {
   const [resendCooldown, setResendCooldown] = useState(0);
   
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   // ===== PASSWORD LOGIN =====
   const handlePasswordLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setSuccess("");
 
     try {
       const response = await API.post("/auth/login", {
@@ -39,12 +37,12 @@ function Login() {
       localStorage.setItem("userName", response.data.name);
       localStorage.setItem("userRole", response.data.role);
 
-      setSuccess("✅ Login successful!");
+      toast.showToast("✅ Login successful!", "success");
       setTimeout(() => {
         navigate("/dashboard");
       }, 1000);
     } catch (error) {
-      setError(error.response?.data?.error || "Invalid email or password");
+      toast.showToast(error.response?.data?.error || "Invalid email or password", "error");
     } finally {
       setLoading(false);
     }
@@ -54,13 +52,11 @@ function Login() {
   const handleSendOTP = async (e) => {
     e.preventDefault();
     if (!otpEmail || !otpEmail.includes("@")) {
-      setError("Please enter a valid email");
+      toast.showToast("Please enter a valid email", "error");
       return;
     }
 
     setLoading(true);
-    setError("");
-    setSuccess("");
 
     try {
       await API.post("/otp/generate", {
@@ -68,7 +64,7 @@ function Login() {
         purpose: "LOGIN"
       });
       
-      setSuccess("✅ OTP sent successfully! Check your console.");
+      toast.showToast("✅ OTP sent successfully! Check your console.", "success");
       setOtpSent(true);
       setResendCooldown(30);
       
@@ -83,7 +79,7 @@ function Login() {
       }, 1000);
       
     } catch (error) {
-      setError(error.response?.data?.error || "Failed to send OTP");
+      toast.showToast(error.response?.data?.error || "Failed to send OTP", "error");
     } finally {
       setLoading(false);
     }
@@ -93,16 +89,13 @@ function Login() {
   const handleOTPLogin = async (e) => {
     e.preventDefault();
     if (!otp || otp.length < 6) {
-      setError("Please enter a valid 6-digit OTP");
+      toast.showToast("Please enter a valid 6-digit OTP", "error");
       return;
     }
 
     setLoading(true);
-    setError("");
-    setSuccess("");
 
     try {
-      // ✅ Direct OTP login endpoint
       const response = await API.post("/auth/otp-login", {
         email: otpEmail,
         otp: otp
@@ -113,12 +106,12 @@ function Login() {
       localStorage.setItem("userName", response.data.name);
       localStorage.setItem("userRole", response.data.role);
 
-      setSuccess("✅ OTP Login successful!");
+      toast.showToast("✅ OTP Login successful!", "success");
       setTimeout(() => {
         navigate("/dashboard");
       }, 1000);
     } catch (error) {
-      setError(error.response?.data?.error || "Invalid OTP");
+      toast.showToast(error.response?.data?.error || "Invalid OTP", "error");
     } finally {
       setLoading(false);
     }
@@ -136,20 +129,17 @@ function Login() {
         <div className="login-tabs">
           <button
             className={`tab-btn ${loginMode === "password" ? "active" : ""}`}
-            onClick={() => { setLoginMode("password"); setError(""); setSuccess(""); }}
+            onClick={() => { setLoginMode("password"); }}
           >
             🔐 Password
           </button>
           <button
             className={`tab-btn ${loginMode === "otp" ? "active" : ""}`}
-            onClick={() => { setLoginMode("otp"); setError(""); setSuccess(""); setOtpSent(false); }}
+            onClick={() => { setLoginMode("otp"); setOtpSent(false); }}
           >
             📧 OTP
           </button>
         </div>
-
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
 
         {/* ===== PASSWORD LOGIN FORM ===== */}
         {loginMode === "password" && (

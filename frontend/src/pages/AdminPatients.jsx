@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";  // 🔥 Added
+import { useNavigate } from "react-router-dom";
 import API from "../api/api";
+import { useToast } from "../components/Toast";
 import "./AdminPatients.css";
 
 function AdminPatients() {
-  const navigate = useNavigate();  // 🔥 Added
+  const navigate = useNavigate();
+  const toast = useToast();
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -37,7 +39,7 @@ function AdminPatients() {
       setLoading(false);
     } catch (error) {
       console.error("Error fetching patients:", error);
-      alert("Failed to load patients");
+      toast.showToast("Failed to load patients", "error");
       setLoading(false);
     }
   };
@@ -57,6 +59,7 @@ function AdminPatients() {
       setPatients(response.data);
     } catch (error) {
       console.error("Search error:", error);
+      toast.showToast("Search failed", "error");
     }
   };
 
@@ -72,6 +75,7 @@ function AdminPatients() {
       setPatients(response.data);
     } catch (error) {
       console.error("Filter error:", error);
+      toast.showToast("Filter failed", "error");
     }
   };
 
@@ -140,16 +144,16 @@ function AdminPatients() {
     try {
       if (editingPatient) {
         await API.put(`/patients/update/${editingPatient.id}`, form);
-        alert("Patient updated successfully!");
+        toast.showToast("Patient updated successfully!", "success");
       } else {
         await API.post("/patients/admin/add", form);
-        alert("Patient added successfully!");
+        toast.showToast("Patient added successfully!", "success");
       }
       closeModal();
       fetchPatients();
     } catch (error) {
       console.error("Error saving patient:", error);
-      alert(error.response?.data?.error || "Failed to save patient");
+      toast.showToast(error.response?.data?.error || "Failed to save patient", "error");
     }
   };
 
@@ -159,11 +163,11 @@ function AdminPatients() {
 
     try {
       await API.delete(`/patients/admin/delete/${id}`);
-      alert("Patient deleted successfully!");
+      toast.showToast("Patient deleted successfully!", "success");
       fetchPatients();
     } catch (error) {
       console.error("Error deleting patient:", error);
-      alert("Failed to delete patient");
+      toast.showToast("Failed to delete patient", "error");
     }
   };
 
