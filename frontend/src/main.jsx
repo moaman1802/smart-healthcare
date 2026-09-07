@@ -12,17 +12,51 @@
 //   </StrictMode>
 // );
 
+// import { StrictMode } from "react";
+// import { createRoot } from "react-dom/client";
+// import { BrowserRouter } from "react-router-dom";
+// import App from "./App.jsx";
+// import "./index.css";
+// import { ToastProvider } from "./components/Toast";
+
+// createRoot(document.getElementById("root")).render(
+//   <StrictMode>
+//     <BrowserRouter>
+//       <ToastProvider>
+//         <App />
+//       </ToastProvider>
+//     </BrowserRouter>
+//   </StrictMode>
+// );
+
+// import { StrictMode } from "react";
+// import { createRoot } from "react-dom/client";
+// import { BrowserRouter } from "react-router-dom";
+// import App from "./App.jsx";
+// import "./index.css";
+// import { ToastProvider } from "./components/Toast";   // ✅ Import
+
+// createRoot(document.getElementById("root")).render(
+//   <StrictMode>
+//     <BrowserRouter>
+//       <ToastProvider>   {/* ✅ Wrap App */}
+//         <App />
+//       </ToastProvider>
+//     </BrowserRouter>
+//   </StrictMode>
+// );
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
-import { ToastProvider } from "./components/Toast";
+import { ToastProvider } from "./components/Toast";   // ✅ Import
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <ToastProvider>
+      <ToastProvider>   {/* ✅ Wrap App */}
         <App />
       </ToastProvider>
     </BrowserRouter>
