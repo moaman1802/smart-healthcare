@@ -9,6 +9,20 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-primary: #2f6fed;
+  --color-primary-dark: #1c4fd1;
+  --color-primary-soft: #eaf1ff;
+  --color-surface: #ffffff;
+  --color-page: #f5f7fb;
+  --color-text: #111827;
+  --color-text-muted: #4b5563;
+  --color-border: #eef1f8;
+  --radius-control: 10px;
+  --transition-fast: 0.2s ease;
+  --shadow-soft: 0 8px 18px rgba(47, 111, 237, 0.35);
+}
+
 
 /* ============================================================
    HTML
