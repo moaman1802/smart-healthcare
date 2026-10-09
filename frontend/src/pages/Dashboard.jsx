@@ -94,7 +94,7 @@ function Dashboard() {
   )}&background=2f6fed&color=ffffff&bold=true&rounded=true&size=128`;
 
   const logoImg = "https://cdn-icons-png.flaticon.com/512/2966/2966327.png";
-  const heroIllustration = "https://cdn-icons-png.flaticon.com/512/3774/3774299.png";
+  const heroIllustration = "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*";
   const statImages = {
     Appointments: "https://cdn-icons-png.flaticon.com/512/2693/2693507.png",
     Doctors: "https://cdn-icons-png.flaticon.com/512/3774/3774299.png",
